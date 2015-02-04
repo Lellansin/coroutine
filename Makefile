@@ -1,10 +1,20 @@
 all : main
 
-# main : main_win.c coroutine.c
+#
+# default to compile windows vershion now
+#
 main : main_win.c coroutine_win.c debug.c
 	gcc -g -Wall -o $@ $^
 	@echo -------------------
 	main
+
+unix: main_win.c coroutine.c
+	gcc -g -Wall -o $@ $^
+
+win: main_win.c coroutine_win.c debug.c
+	gcc -g -Wall -o $@ $^
+	@echo -------------------
+	win
 
 clean :
 	rm main

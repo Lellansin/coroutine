@@ -1,3 +1,19 @@
+coroutine
+-----
+
+*nix
+---------
+
+    make unix
+
+windows
+---------
+
+    make
+
+Introduce
+-----
+
 It's an asymmetric coroutine library (like lua).
 
 You can use coroutine_open to open a schedule first, and then create coroutine in that schedule. 
