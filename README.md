@@ -1,4 +1,4 @@
-coroutine
+Coroutine
 -----
 
 *nix

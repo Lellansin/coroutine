@@ -8,7 +8,7 @@ main : main_win.c coroutine_win.c debug.c
 	@echo -------------------
 	main
 
-unix: main_win.c coroutine.c
+unix: main.c coroutine.c
 	gcc -g -Wall -o $@ $^
 
 win: main_win.c coroutine_win.c debug.c
