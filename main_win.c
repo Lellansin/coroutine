@@ -12,11 +12,10 @@ foo(LPVOID param) {
 	struct schedule *S = coroutine_get_schedule(param);
 	struct args* args = coroutine_get_args(param);
 	int i;
-	printf("%d\n", args->n);
 	debug("fiber %d start\n", coroutine_running(S));
 	for (i = 0; i < 5; ++i)
 	{
-		printf("coroutine %d : %d\n", coroutine_running(S) , i);
+		printf("coroutine %d : %d\n", coroutine_running(S) , args->n + i);
 		coroutine_yield(S);
 	}
 	debug("fiber %d end\n", coroutine_running(S));
