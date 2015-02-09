@@ -101,15 +101,15 @@ coroutine_new(struct schedule *S, LPFIBER_START_ROUTINE func, void *ud) {
 	struct coroutine *co = _co_new(S, func , param);
 	param->S = S;
 	param->args = ud;
-	// if (S->nco >= S->cap) {
-	// 	int id = S->cap;
-	// 	S->co = realloc(S->co, S->cap * 2 * sizeof(struct coroutine *));
-	// 	memset(S->co + S->cap , 0 , sizeof(struct coroutine *) * S->cap);
-	// 	S->co[S->cap] = co;
-	// 	S->cap *= 2;
-	// 	++S->nco;
-	// 	return id;
-	// } else {
+	if (S->nco >= S->cap) {
+		int id = S->cap;
+		S->co = realloc(S->co, S->cap * 2 * sizeof(struct coroutine *));
+		memset(S->co + S->cap , 0 , sizeof(struct coroutine *) * S->cap);
+		S->co[S->cap] = co;
+		S->cap *= 2;
+		++S->nco;
+		return id;
+	} else {
 		int i;
 		for (i=0;i<S->cap;i++) {
 			int id = (i+S->nco) % S->cap;
@@ -119,8 +119,8 @@ coroutine_new(struct schedule *S, LPFIBER_START_ROUTINE func, void *ud) {
 				return id;
 			}
 		}
-	// }
-	// assert(0);
+	}
+	assert(0);
 	return -1;
 }
 
