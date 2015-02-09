@@ -63,10 +63,6 @@ _co_delete(struct coroutine *co) {
 	free(co);
 }
 
-#define PRIMARY_FIBER 0 // array index to primary fiber
-#define READ_FIBER 1    // array index to read fiber
-#define WRITE_FIBER 2   // array index to write fiber
-
 struct schedule * 
 coroutine_open(void) {
 	int nothing;
@@ -155,8 +151,7 @@ coroutine_resume(struct schedule * S, int id) {
 		SwitchToFiber(S->master);
 		break;
 	default:
-		// assert(0);
-		;
+		assert(0);
 	}
 }
 
@@ -165,11 +160,12 @@ coroutine_end(struct schedule * S) {
 	int id = S->running;
 	assert(id >=0 && id < S->cap);
 	struct coroutine *C = S->co[S->running];
-	if (C == NULL)
+	if (C == NULL){
 		;
-	else
+	} else {
 		C->status = COROUTINE_DEAD;
-	// DeleteFiber(C->fiber);
+		// DeleteFiber(C->fiber);
+	}
 	S->co[id] = NULL;
 	SwitchToFiber(S->master);
 }
@@ -188,10 +184,8 @@ int
 coroutine_status(struct schedule * S, int id) {
 	assert(id>=0 && id < S->cap);
 	if (S->co[id] == NULL) {
-		debug("--> %d dead\n", id);
 		return COROUTINE_DEAD;
 	}
-	debug("==> status %d\n", S->co[id]->status);
 	return S->co[id]->status;
 }
 

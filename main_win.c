@@ -12,14 +12,15 @@ foo(LPVOID param) {
 	struct schedule *S = coroutine_get_schedule(param);
 	struct args* args = coroutine_get_args(param);
 	int i;
-	debug("fiber %d start\n", coroutine_running(S));
+	printf("fiber %d start\n", coroutine_running(S));
 	for (i = 0; i < 5; ++i)
 	{
 		printf("coroutine %d : %d\n", coroutine_running(S) , args->n + i);
 		coroutine_yield(S);
 	}
-	debug("fiber %d end\n", coroutine_running(S));
+	printf("fiber %d end\n", coroutine_running(S));
 	coroutine_end(S);
+	printf("not exec\n");
 }
 
 static void
@@ -31,7 +32,9 @@ test(struct schedule *S) {
 	int co2 = coroutine_new(S, foo, &arg2);
 	printf("main start\n");
 	while (coroutine_status(S,co1) && coroutine_status(S,co2)) {
+		printf("resume 1\n");
 		coroutine_resume(S,co1);
+		printf("resume 2\n");
 		coroutine_resume(S,co2);
 	} 
 	printf("main end\n");
