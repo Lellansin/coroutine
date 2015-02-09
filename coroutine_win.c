@@ -81,19 +81,19 @@ coroutine_open(void) {
 	return S;
 }
 
-// void 
-// coroutine_close(struct schedule *S) {
-// 	int i;
-// 	for (i=0;i<S->cap;i++) {
-// 		struct coroutine * co = S->co[i];
-// 		if (co) {
-// 			_co_delete(co);
-// 		}
-// 	}
-// 	free(S->co);
-// 	S->co = NULL;
-// 	free(S);
-// }
+void 
+coroutine_close(struct schedule *S) {
+	int i;
+	for (i=0;i<S->cap;i++) {
+		struct coroutine * co = S->co[i];
+		if (co) {
+			_co_delete(co);
+		}
+	}
+	free(S->co);
+	S->co = NULL;
+	free(S);
+}
 
 int 
 coroutine_new(struct schedule *S, LPFIBER_START_ROUTINE func, void *ud) {

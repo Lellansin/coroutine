@@ -31,9 +31,7 @@ test(struct schedule *S) {
 	int co2 = coroutine_new(S, foo, &arg2);
 	printf("main start\n");
 	while (coroutine_status(S,co1) && coroutine_status(S,co2)) {
-		debug("resume co1\n");
 		coroutine_resume(S,co1);
-		debug("resume co2\n");
 		coroutine_resume(S,co2);
 	} 
 	printf("main end\n");
@@ -43,7 +41,7 @@ int
 main() {
 	struct schedule * S = coroutine_open();
 	test(S);
-	// coroutine_close(S);
+	coroutine_close(S);
 	
 	return 0;
 }
